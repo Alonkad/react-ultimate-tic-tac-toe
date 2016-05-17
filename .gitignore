@@ -1,0 +1,9 @@
+node_modules
+.tmp
+.idea
+dist
+.publish
+.DS_Store
+*.log
+coverage
+.nyc_output
