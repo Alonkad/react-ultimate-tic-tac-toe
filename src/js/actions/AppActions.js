@@ -1,12 +1,10 @@
 import AppDispatcher from '../dispatcher/AppDispatcher';
-import { AppConstants } from '../constants/AppConstants';
+import { CONST } from '../constants/AppConstants';
 
 
-function testAction(actionData) {
+export function tileClickedAction(actionData) {
   AppDispatcher.handleViewAction({
-    actionType: AppConstants.TEST_ACTION,
+    actionType: CONST.ACTIONS.TILE_CLICKED,
     actionData
   });
 }
-
-export default testAction;

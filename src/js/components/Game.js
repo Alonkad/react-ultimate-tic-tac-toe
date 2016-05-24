@@ -1,6 +1,6 @@
 import React from 'react';
-import testAction from '../actions/AppActions';
 import AppStore from '../stores/AppStore';
+import OuterBoard from '../components/OuterBoard';
 
 
 class Game extends React.Component {
@@ -10,9 +10,7 @@ class Game extends React.Component {
     this._bindMethods();
 
     // set initial state
-    this.state = {
-      list: AppStore.getList()
-    };
+    this.state = AppStore.getData();
   }
 
   componentDidMount() {
@@ -25,26 +23,25 @@ class Game extends React.Component {
 
   _bindMethods() {
     this._onChange = this._onChange.bind(this);
-    this.clickHandler = this.clickHandler.bind(this);
   }
 
   _onChange() {
-    this.setState({
-      list: AppStore.getList()
-    });
-  }
-
-  clickHandler() {
-    testAction(Math.floor(Math.random() * 100));
+    this.setState(AppStore.getData());
   }
 
   render() {
+    if (this.state.winningPlayer) {
+      alert(`Player ${this.state.winningPlayer} is the winner!`);  // eslint-disable-line no-alert
+    }
+
     return (
       <div>
         <h2>Game Goes Here</h2>
-        <button onClick={this.clickHandler}>Click to test data flow</button>
-        <br /><br />
-        <div>Random numbers should be added to the array: {JSON.stringify(this.state.list)}</div>
+        <h2>It's player {this.state.currentPlayer} turn to play</h2>
+
+        <div className="game-container">
+          <OuterBoard data={this.state} />
+        </div>
       </div>
     );
   }

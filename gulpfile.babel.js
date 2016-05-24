@@ -1,5 +1,6 @@
-import gulp from 'gulp';
+import gulp from "gulp";
 import concat from 'gulp-concat';
+import gulpIf from 'gulp-if';
 import autoprefixer from 'autoprefixer';
 import browserify from 'browserify';
 import watchify from 'watchify';
@@ -13,7 +14,6 @@ import notify from 'gulp-notify';
 import browserSync, { reload } from 'browser-sync';
 import sourcemaps from 'gulp-sourcemaps';
 import postcss from 'gulp-postcss';
-import rename from 'gulp-rename';
 import nested from 'postcss-nested';
 import vars from 'postcss-simple-vars';
 import extend from 'postcss-simple-extend';
@@ -28,12 +28,11 @@ const paths = {
   entry: 'src/js/Index.js',
   srcCss: 'src/styles/**/*.scss',
   srcImg: 'src/images/**',
-  srcLint: ['src/js/**/*.js'],
+  srcLint: 'src/js/*/*.js',
   dist: 'dist',
   distJs: 'dist/js',
   distImg: 'dist/images',
-  distStyle: 'dist/styles',
-  distDeploy: './dist/**/*'
+  distStyle: 'dist/styles'
 };
 
 const customOpts = {
@@ -45,6 +44,11 @@ const customOpts = {
 
 const opts = Object.assign({}, watchify.args, customOpts);
 
+function isFixed(file) {
+  // Has ESLint fixed the file contents?
+  return file.eslint != null && file.eslint.fixed;
+}
+
 gulp.task('clean', cb => {
   rimraf('dist', cb);
 });
@@ -53,7 +57,7 @@ gulp.task('browserSync', () => {
   browserSync({
     server: {
       baseDir: './',
-      index: "index.html"
+      index: 'index.html'
     }
   });
 });
@@ -117,8 +121,10 @@ gulp.task('images', () => {
 
 gulp.task('lint', () => {
   gulp.src(paths.srcLint)
+    // .pipe(eslint({ fix: true }))
     .pipe(eslint())
     .pipe(eslint.format());
+    //.pipe(gulpIf(isFixed, gulp.dest(paths.srcLint)));  // if fixed, write the file to dest
 });
 
 gulp.task('watchTask', () => {

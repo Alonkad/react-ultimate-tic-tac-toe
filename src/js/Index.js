@@ -1,4 +1,5 @@
 import React from 'react';
+import Perf from 'react-addons-perf';
 import { render } from 'react-dom';
 import { Router, Route, IndexRoute, useRouterHistory } from 'react-router';
 import { createHashHistory } from 'history';
@@ -7,7 +8,7 @@ import Game from './components/Game';
 import About from './components/About';
 import NoMatch from './components/NoMatch';
 
-window.React = React;
+window.Perf = Perf;
 
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 

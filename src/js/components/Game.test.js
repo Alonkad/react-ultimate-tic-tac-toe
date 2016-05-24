@@ -1,8 +1,8 @@
 import test from 'ava';
-import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import Game from './Game';
+// import React from 'react';
+// import { renderShallow } from '../test_helper';
+// import Game from './Game';
+//
+// const game = renderShallow(<Game />);
 
-test('Game Passing Test', t => {
-  t.pass();
-});
+test.todo('Game should work');
